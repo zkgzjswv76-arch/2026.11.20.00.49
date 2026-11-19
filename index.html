@@ -1537,19 +1537,19 @@ const App = {
     card.style.width = a.width + 'px';
     card.classList.toggle('landscape', a.orientation === 'landscape');
 
-    // 背景
-    let bg = '';
-    if (a.bgMode === 'solid') bg = a.bgColor;
-    else if (a.bgMode === 'gradient') bg = `linear-gradient(135deg, ${a.gradStart}, ${a.gradEnd})`;
-    else if (a.bgMode === 'image' && a.bgImage) bg = a.bgColor;
-    card.style.background = bg;
+    // 背景（单独图层承载，不透明度只作用于背景，不影响内容）
+    card.style.background = '#ffffff';
     card.style.color = text;
     card.style.setProperty('--accent', accent);
-    card.style.opacity = a.cardOpacity / 100;
+    // 卡片整体不设 opacity，保证导出的文字/头像/底图都清晰
 
     let bgLayer = '';
-    if (a.bgMode === 'image' && a.bgImage) {
-      bgLayer = `<div class="pc-bg"><img src="${this.escapeAttr(a.bgImage)}" alt="" crossorigin="anonymous"></div>`;
+    if (a.bgMode === 'solid') {
+      bgLayer = `<div class="pc-bg" style="background:${a.bgColor};opacity:${a.cardOpacity / 100}"></div>`;
+    } else if (a.bgMode === 'gradient') {
+      bgLayer = `<div class="pc-bg" style="background:linear-gradient(135deg, ${a.gradStart}, ${a.gradEnd});opacity:${a.cardOpacity / 100}"></div>`;
+    } else if (a.bgMode === 'image' && a.bgImage) {
+      bgLayer = `<div class="pc-bg" style="opacity:${a.cardOpacity / 100}"><img src="${this.escapeAttr(a.bgImage)}" alt="" crossorigin="anonymous"></div>`;
     }
 
     // 各模块底图样式
