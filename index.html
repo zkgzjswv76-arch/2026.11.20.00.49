@@ -1520,7 +1520,7 @@ const App = {
     const cfg = this.state.moduleBg[key];
     if (!cfg || cfg.mode === 'none') return '';
     if (cfg.mode === 'color') return cfg.color;
-    if (cfg.mode === 'image' && cfg.image) return `url("${cfg.image}") center/cover no-repeat`;
+    if (cfg.mode === 'image' && cfg.image) return `url('${cfg.image}') center/cover no-repeat`;
     return '';
   },
 
